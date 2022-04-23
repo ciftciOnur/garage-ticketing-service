@@ -2,12 +2,13 @@ package tr.com.vodafone.garageservice.application.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import tr.com.vodafone.garageservice.application.service.GarageManagerService;
 import tr.com.vodafone.garageservice.domain.model.garage.Garage;
 import tr.com.vodafone.garageservice.domain.model.vehicle.Vehicle;
+import tr.com.vodafone.garageservice.infrastructure.config.GarageServiceException;
 import tr.com.vodafone.garageservice.infrastructure.config.SingletonBeanConfig;
+import tr.com.vodafone.garageservice.infrastructure.config.VehicleNotFoundException;
 import tr.com.vodafone.garageservice.interfaces.dto.StatusDto;
 import tr.com.vodafone.garageservice.interfaces.dto.VehicleDto;
 
@@ -24,9 +25,9 @@ public class GarageManagerServiceImpl implements GarageManagerService {
     Garage garage = (Garage) context.getBean("garage");
 
     @Override
-    public boolean parkVehicle(VehicleDto vehicleDto) {
+    public Integer parkVehicle(VehicleDto vehicleDto) {
         if(garage.getGarageVacancy()+vehicleDto.getVehicleType().getSlot()>=10)
-            return false;
+            throw new GarageServiceException("No vacant slot available");
         int index=garage.isAvaliable(vehicleDto.getVehicleType().getSlot());
         garage.getVehicles().add(Vehicle.builder()
                 .slotsize(vehicleDto.getVehicleType())
@@ -35,7 +36,7 @@ public class GarageManagerServiceImpl implements GarageManagerService {
                 .id(index)
                 .build());
         garage.setGarageVacancy(garage.getGarageVacancy()+vehicleDto.getVehicleType().getSlot()+1);
-        return true;
+        return index;
     }
 
     @Override
@@ -44,7 +45,7 @@ public class GarageManagerServiceImpl implements GarageManagerService {
             garage.getVehicles().remove(v);
             garage.setGarageVacancy(garage.getGarageVacancy()-v.getSlotsize().getSlot()-1);
             return v;
-        }).orElseThrow();
+        }).orElseThrow(() ->new VehicleNotFoundException("Vehicle not found"));
         return VehicleDto.builder()
                 .color(vehicle.getColor())
                 .numberPlate(vehicle.getNumberPlate())
