@@ -24,27 +24,22 @@ public class Garage {
     }
 
     public int isAvaliable(int slotSize){
-        int vacancy=0;
         int index=0;
         int vehicleSize=0;
+        int prevIndex=0;
         for(Vehicle vehicle:vehicles){
             index=vehicle.getId();
             vehicleSize=vehicle.getSlotsize().getSlot()+1;
-            if(vacancy+slotSize<vehicle.getId()){
-                return vacancy;
+            if(prevIndex+slotSize<vehicle.getId()){
+                return prevIndex;
             }
             else{
-                vacancy = vehicle.getSlotsize().getSlot() +1;
+                prevIndex = vehicle.getId()+vehicle.getSlotsize().getSlot() +1;
             }
         }
         return index+vehicleSize;
     }
 
-    @Bean
-    @Scope("singleton")
-    public Garage garageSingleton() {
-        return new Garage();
-    }
 }
 
 

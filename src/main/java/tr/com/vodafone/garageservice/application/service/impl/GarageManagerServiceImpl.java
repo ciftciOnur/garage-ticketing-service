@@ -1,19 +1,26 @@
 package tr.com.vodafone.garageservice.application.service.impl;
 
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Component;
 import tr.com.vodafone.garageservice.application.service.GarageManagerService;
 import tr.com.vodafone.garageservice.domain.model.garage.Garage;
 import tr.com.vodafone.garageservice.domain.model.vehicle.Vehicle;
+import tr.com.vodafone.garageservice.infrastructure.config.SingletonBeanConfig;
+import tr.com.vodafone.garageservice.interfaces.dto.StatusDto;
 import tr.com.vodafone.garageservice.interfaces.dto.VehicleDto;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Vector;
 
 @Component
 public class GarageManagerServiceImpl implements GarageManagerService {
 
-    ApplicationContext applicationContext =
-            new ClassPathXmlApplicationContext("scopes.xml");
-    private Garage garage = (Garage) applicationContext.getBean("garageSingleton");
+    AnnotationConfigApplicationContext context =
+            new AnnotationConfigApplicationContext(SingletonBeanConfig.class);
+    Garage garage = (Garage) context.getBean("garage");
 
     @Override
     public boolean parkVehicle(VehicleDto vehicleDto) {
@@ -43,6 +50,22 @@ public class GarageManagerServiceImpl implements GarageManagerService {
                 .vehicleType(vehicle.getSlotsize())
                 .build();
 
+    }
+
+    @Override
+    public List<StatusDto> status(){
+        List<StatusDto> statusDtoList= new ArrayList<>();
+       for(Vehicle vehicle : garage.getVehicles()){
+           List<Integer> slots = new ArrayList<>();
+           for(int i=0; i<vehicle.getSlotsize().getSlot();i++){
+               slots.add(vehicle.getId()+i);
+           }
+           statusDtoList.add(StatusDto.builder()
+                   .color(vehicle.getColor())
+                   .numberPlate(vehicle.getNumberPlate())
+                   .slots(slots).build());
+       }
+       return statusDtoList;
     }
 
 

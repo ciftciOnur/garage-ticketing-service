@@ -6,6 +6,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.web.bind.annotation.*;
 import tr.com.vodafone.garageservice.application.service.GarageManagerService;
 import tr.com.vodafone.garageservice.domain.model.garage.Garage;
+import tr.com.vodafone.garageservice.interfaces.dto.StatusDto;
 import tr.com.vodafone.garageservice.interfaces.dto.VehicleDto;
 
 import java.util.List;
@@ -25,6 +26,11 @@ public class VehicleController {
     @GetMapping("/{vehicleId}")
     public VehicleDto leaveVehicle(@PathVariable int vehicleId) {
         return garageManagerService.leaveVehicle(vehicleId);
+    }
+
+    @GetMapping("/status")
+    public List<StatusDto> status() {
+        return garageManagerService.status();
     }
 
 
