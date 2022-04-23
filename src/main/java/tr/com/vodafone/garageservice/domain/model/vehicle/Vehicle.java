@@ -12,6 +12,7 @@ public class Vehicle {
     private VehicleType slotsize;
     private String color;
     private String numberPlate;
+    private int id;
 
 
 }

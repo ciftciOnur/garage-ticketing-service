@@ -4,4 +4,6 @@ import tr.com.vodafone.garageservice.interfaces.dto.VehicleDto;
 
 public interface GarageManagerService {
     boolean parkVehicle(VehicleDto vehicleDto);
+
+    VehicleDto leaveVehicle(int id);
 }

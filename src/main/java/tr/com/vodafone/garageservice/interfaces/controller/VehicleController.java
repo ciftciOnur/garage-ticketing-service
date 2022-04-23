@@ -23,8 +23,8 @@ public class VehicleController {
     }
 
     @GetMapping("/{vehicleId}")
-    public void leaveVehicle(@PathVariable int vehicleId) {
-        System.out.println("hellow");
+    public VehicleDto leaveVehicle(@PathVariable int vehicleId) {
+        return garageManagerService.leaveVehicle(vehicleId);
     }
 
 
