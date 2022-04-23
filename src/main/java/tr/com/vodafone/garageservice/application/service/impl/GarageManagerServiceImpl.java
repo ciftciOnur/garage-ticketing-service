@@ -1,9 +1,9 @@
 package tr.com.vodafone.garageservice.application.service.impl;
 
-import org.springframework.context.ApplicationContext;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import tr.com.vodafone.garageservice.application.service.GarageManagerService;
 import tr.com.vodafone.garageservice.domain.model.garage.Garage;
 import tr.com.vodafone.garageservice.domain.model.vehicle.Vehicle;
@@ -13,9 +13,10 @@ import tr.com.vodafone.garageservice.interfaces.dto.VehicleDto;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
-@Component
+
+@Service
+@RequiredArgsConstructor
 public class GarageManagerServiceImpl implements GarageManagerService {
 
     AnnotationConfigApplicationContext context =

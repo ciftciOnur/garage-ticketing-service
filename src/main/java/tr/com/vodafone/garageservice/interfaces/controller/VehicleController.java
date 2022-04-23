@@ -16,7 +16,7 @@ import java.util.List;
 public class VehicleController {
 
     @Autowired
-    GarageManagerService garageManagerService;
+    private GarageManagerService garageManagerService;
 
     @PostMapping
     public void parkVehicle(@RequestBody VehicleDto vehicleDto) {

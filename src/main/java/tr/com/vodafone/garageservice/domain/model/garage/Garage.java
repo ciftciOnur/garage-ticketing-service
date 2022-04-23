@@ -19,7 +19,7 @@ public class Garage {
     private int garageVacancy;
 
     public Garage() {
-        vehicles = new Vector<>(10);
+        vehicles = new Vector<>(11); //imaginary +1 slot to compansate last car's right buffer.
         garageVacancy=0;
     }
 
