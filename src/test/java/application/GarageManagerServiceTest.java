@@ -31,7 +31,7 @@ public class GarageManagerServiceTest {
                 .color("Blue")
                 .vehicleType(VehicleType.CAR)
                 .build();
-        assertEquals(true, garageManagerService.parkVehicle(vehicleDto));
+        assertEquals(0, garageManagerService.parkVehicle(vehicleDto));
     }
 
     @Test

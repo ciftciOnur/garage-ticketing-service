@@ -10,16 +10,18 @@ import javax.validation.constraints.Size;
 import java.util.List;
 import java.util.Objects;
 import java.util.Vector;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 @Getter
 @Setter
 public class Garage {
     @Size(max = 10)
-    private List<Vehicle> vehicles;
+    private ConcurrentMap<Integer,Vehicle> vehicles;
     private int garageVacancy;
 
     public Garage() {
-        vehicles = new Vector<>(11); //imaginary +1 slot to compansate last car's right buffer.
+        vehicles = new ConcurrentHashMap<>(11); //imaginary +1 slot to compansate last car's right buffer.
         garageVacancy=0;
     }
 
@@ -27,7 +29,7 @@ public class Garage {
         int index=0;
         int vehicleSize=0;
         int prevIndex=0;
-        for(Vehicle vehicle:vehicles){
+        for(Vehicle vehicle:vehicles.values()){
             index=vehicle.getId();
             vehicleSize=vehicle.getSlotsize().getSlot()+1;
             if(prevIndex+slotSize<vehicle.getId()){

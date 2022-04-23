@@ -19,8 +19,8 @@ public class VehicleController {
     private GarageManagerService garageManagerService;
 
     @PostMapping
-    public void parkVehicle(@RequestBody VehicleDto vehicleDto) {
-        garageManagerService.parkVehicle(vehicleDto);
+    public Integer parkVehicle(@RequestBody VehicleDto vehicleDto) {
+        return garageManagerService.parkVehicle(vehicleDto);
     }
 
     @GetMapping("/{vehicleId}")

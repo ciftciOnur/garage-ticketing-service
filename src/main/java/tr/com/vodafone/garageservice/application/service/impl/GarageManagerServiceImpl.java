@@ -26,10 +26,10 @@ public class GarageManagerServiceImpl implements GarageManagerService {
 
     @Override
     public Integer parkVehicle(VehicleDto vehicleDto) {
-        if(garage.getGarageVacancy()+vehicleDto.getVehicleType().getSlot()>=10)
+        if(garage.getGarageVacancy()+vehicleDto.getVehicleType().getSlot()>10)
             throw new GarageServiceException("No vacant slot available");
         int index=garage.isAvaliable(vehicleDto.getVehicleType().getSlot());
-        garage.getVehicles().add(Vehicle.builder()
+        garage.getVehicles().put(index,Vehicle.builder()
                 .slotsize(vehicleDto.getVehicleType())
                 .numberPlate(vehicleDto.getNumberPlate())
                 .color(vehicleDto.getColor())
@@ -41,10 +41,10 @@ public class GarageManagerServiceImpl implements GarageManagerService {
 
     @Override
     public VehicleDto leaveVehicle(int id){
-        Vehicle vehicle=garage.getVehicles().stream().filter(v -> v.getId()==id).findFirst().map(v -> {
-            garage.getVehicles().remove(v);
-            garage.setGarageVacancy(garage.getGarageVacancy()-v.getSlotsize().getSlot()-1);
-            return v;
+        Vehicle vehicle=garage.getVehicles().entrySet().stream().filter(v -> v.getKey()==id).findFirst().map(v -> {
+            garage.getVehicles().remove(v.getKey(),v.getValue());
+            garage.setGarageVacancy(garage.getGarageVacancy()-v.getValue().getSlotsize().getSlot()-1);
+            return v.getValue();
         }).orElseThrow(() ->new VehicleNotFoundException("Vehicle not found"));
         return VehicleDto.builder()
                 .color(vehicle.getColor())
@@ -57,7 +57,7 @@ public class GarageManagerServiceImpl implements GarageManagerService {
     @Override
     public List<StatusDto> status(){
         List<StatusDto> statusDtoList= new ArrayList<>();
-       for(Vehicle vehicle : garage.getVehicles()){
+       for(Vehicle vehicle : garage.getVehicles().values()){
            List<Integer> slots = new ArrayList<>();
            for(int i=0; i<vehicle.getSlotsize().getSlot();i++){
                slots.add(vehicle.getId()+i);
