@@ -1,4 +1,4 @@
-package application;
+package tr.com.vodafone.garageservice.application;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -7,6 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
+import tr.com.vodafone.garageservice.GarageTicketingServiceTestConfig;
 import tr.com.vodafone.garageservice.application.service.GarageManagerService;
 import tr.com.vodafone.garageservice.domain.model.vehicle.VehicleType;
 import tr.com.vodafone.garageservice.interfaces.dto.VehicleDto;

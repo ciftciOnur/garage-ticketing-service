@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 public class GarageManagementException extends GarageServiceException{
 
     public GarageManagementException(String message) {
-        super(HttpStatus.LOCKED.value(),message);
+        super(message,HttpStatus.LOCKED);
     }
 
 }

@@ -1,6 +1,7 @@
 package tr.com.vodafone.garageservice.application.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Service;
 import tr.com.vodafone.garageservice.application.service.GarageManagerService;
@@ -17,6 +18,7 @@ import java.util.List;
 
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class GarageManagerServiceImpl implements GarageManagerService {
 
@@ -36,6 +38,7 @@ public class GarageManagerServiceImpl implements GarageManagerService {
                 .id(index)
                 .build());
         garage.setGarageVacancy(garage.getGarageVacancy()+vehicleDto.getVehicleType().getSlot()+1);
+        log.info("The vehicle has been parked {}", vehicleDto);
         return index;
     }
 
@@ -46,12 +49,13 @@ public class GarageManagerServiceImpl implements GarageManagerService {
             garage.setGarageVacancy(garage.getGarageVacancy()-v.getValue().getSlotsize().getSlot()-1);
             return v.getValue();
         }).orElseThrow(() ->new VehicleNotFoundException("Vehicle not found"));
-        return VehicleDto.builder()
+        VehicleDto vehicleDto= VehicleDto.builder()
                 .color(vehicle.getColor())
                 .numberPlate(vehicle.getNumberPlate())
                 .vehicleType(vehicle.getSlotsize())
                 .build();
-
+        log.info("The vehicle has been taken {}", vehicleDto);
+        return vehicleDto;
     }
 
     @Override
