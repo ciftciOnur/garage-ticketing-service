@@ -21,7 +21,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @ActiveProfiles("default")
 public class GarageManagerServiceTest {
 
-    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
     private GarageManagerService garageManagerService;
 

@@ -7,7 +7,6 @@ import tr.com.vodafone.garageservice.domain.model.vehicle.VehicleType;
 @Setter
 @AllArgsConstructor
 @Builder
-@ToString
 public class VehicleDto {
     private String numberPlate;
     private VehicleType vehicleType;
