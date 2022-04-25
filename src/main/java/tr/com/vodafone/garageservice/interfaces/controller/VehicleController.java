@@ -1,5 +1,6 @@
 package tr.com.vodafone.garageservice.interfaces.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -13,17 +14,18 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/vehicles")
+@RequiredArgsConstructor
 public class VehicleController {
 
-    @Autowired
-    private GarageManagerService garageManagerService;
+    private final GarageManagerService garageManagerService;
 
     @PostMapping
-    public Integer parkVehicle(@RequestBody VehicleDto vehicleDto) {
-        return garageManagerService.parkVehicle(vehicleDto);
+    public String parkVehicle(@RequestBody VehicleDto vehicleDto) {
+        int index = garageManagerService.parkVehicle(vehicleDto);
+        return String.format("Allocated %s slot", index);
     }
 
-    @GetMapping("/{vehicleId}")
+    @DeleteMapping("/{vehicleId}")
     public VehicleDto leaveVehicle(@PathVariable int vehicleId) {
         return garageManagerService.leaveVehicle(vehicleId);
     }

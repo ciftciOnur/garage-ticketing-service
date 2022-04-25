@@ -2,6 +2,9 @@ package tr.com.vodafone.garageservice.domain.model.vehicle;
 
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Builder
 @Getter
 @Setter
@@ -9,10 +12,18 @@ import lombok.*;
 @AllArgsConstructor
 public class Vehicle {
 
-    private VehicleType slotsize;
+    private int id;
+    private VehicleType slotSize;
     private String color;
     private String numberPlate;
-    private int id;
+
+    public List<Integer> getPosition() {
+        List<Integer> slots = new ArrayList<>();
+        for (int i = 0; i < slotSize.getSlot(); i++) {
+            slots.add(id + i);
+        }
+        return slots;
+    }
 
 
 }

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -39,7 +40,6 @@ public class VehicleControllerTest {
                 .color("Blue")
                 .vehicleType(VehicleType.TRUCK)
                 .build();
-
         mockMvc.perform(MockMvcRequestBuilders.post("/api/vehicles")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(new ObjectMapper().writeValueAsString((truckDto)))
@@ -50,22 +50,21 @@ public class VehicleControllerTest {
     }
 
     @Test
-    public void vehicleControllerStatusTest() throws Exception{
+    public void vehicleControllerLeaveTest() throws Exception{
 
-        VehicleDto vehicleDto = VehicleDto.builder()
+        VehicleDto vehicle = VehicleDto.builder()
                 .numberPlate("34abc123")
                 .color("Blue")
                 .vehicleType(VehicleType.CAR)
                 .build();
+        Mockito.when(garageManagerService.leaveVehicle(0)).thenReturn(vehicle);
 
-        int response = garageManagerService.parkVehicle(vehicleDto);
-
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/vehicles/status")
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/vehicles/0")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.[*].color").value("Blue"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.[*].numberPlate").value("34abc123"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.[*].slots").value(Arrays.asList(0,1,2,3)));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.color").value("Blue"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.numberPlate").value("34abc123"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.vehicleType").value("CAR"));
 
     }
 }

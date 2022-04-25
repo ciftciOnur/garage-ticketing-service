@@ -8,9 +8,10 @@ import tr.com.vodafone.garageservice.domain.model.garage.Garage;
 
 @Configuration
 public class SingletonBeanConfig {
-    @Bean("garage")
+
+    @Bean
     @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
-    public Garage getGarage() {
+    public Garage garage() {
         return new Garage();
     }
 }
